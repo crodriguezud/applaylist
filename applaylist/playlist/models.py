@@ -7,8 +7,13 @@ from django.utils.encoding import smart_unicode
 # Create your models here.
 
 class Artista(models.Model):
-	nombre = models.CharField(max_length=60)
+	nombre = models.CharField(max_length=50)
+	nombre_slug = models.SlugField(max_length=50, blank=True, null=True)
 
+	def save(self, *args, **kwargs):
+		self.nombre_slug = slugify(self.nombre)
+		super(self.__class__, self).save(*args, **kwargs)
+	
 	def get_albums(self):
 		return Album.objects.filter(artista=self)
 
@@ -20,7 +25,12 @@ class Artista(models.Model):
 
 class Album(models.Model):
 	nombre = models.CharField(max_length=60)
+	nombre_slug = models.SlugField(max_length=50, blank=True, null=True)
 	artista = models.ForeignKey(Artista)
+
+	def save(self, *args, **kwargs):
+		self.nombre_slug = slugify(self.nombre)
+		super(self.__class__, self).save(*args, **kwargs)
 
 	def get_canciones(self):
 		return Cancion.objects.filter(album=self)
@@ -32,11 +42,16 @@ class Album(models.Model):
 		return smart_unicode(self.nombre)
 
 class Cancion(models.Model):
-	nombre = models.CharField(max_length=60)
+	nombre = models.CharField(max_length=50)
+	nombre_slug = models.SlugField(max_length=50, blank=True, null=True)
 	duracion = models.IntegerField()
 	album = models.ForeignKey(Album, blank=True, null=True)
 	artista = models.ForeignKey(Artista, blank=True, null=True)
 	calificacion = models.PositiveIntegerField(default=0)
+
+	def save(self, *args, **kwargs):
+		self.nombre_slug = slugify(self.nombre)
+		super(self.__class__, self).save(*args, **kwargs)
 
 	def get_duracion(self):
 		return time.strftime("%M:%S", time.gmtime(self.duracion))
