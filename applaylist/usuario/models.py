@@ -19,7 +19,7 @@ class Usuario(models.Model):
 	descripcion = models.TextField(blank=True, null=True)
 
 	def get_creador_playlist(self):
-		return PlayList.objects.filter(creador=self.user)
+		return PlayList.objects.filter(creador=self.usuario)
 
 	class Meta:
 		verbose_name = _('Usuario')
@@ -30,7 +30,7 @@ class Usuario(models.Model):
 
 class PlayList(models.Model):
 	creador = models.ForeignKey(User)
-	nombre = models.CharField(max_length=50)
+	nombre = models.CharField(max_length=50, blank=True, null=True)
 	nombre_slug = models.SlugField(max_length=50, blank=True, null=True)
 	caciones = models.ManyToManyField(Cancion)
 
