@@ -13,7 +13,7 @@ class Artista(models.Model):
 	def save(self, *args, **kwargs):
 		self.nombre_slug = slugify(self.nombre)
 		super(self.__class__, self).save(*args, **kwargs)
-	
+
 	def get_albums(self):
 		return Album.objects.filter(artista=self)
 
@@ -51,6 +51,8 @@ class Cancion(models.Model):
 
 	def save(self, *args, **kwargs):
 		self.nombre_slug = slugify(self.nombre)
+		if(self.artista==None and self.album!=None):
+			self.artista=self.album__artista
 		super(self.__class__, self).save(*args, **kwargs)
 
 	def get_duracion(self):

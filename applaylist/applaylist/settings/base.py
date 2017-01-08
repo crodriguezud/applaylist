@@ -12,10 +12,11 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 from pusher import Pusher
+from os.path import abspath, dirname, join, normpath
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+DJANGO_ROOT = dirname(dirname(dirname(abspath(__file__))))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -137,7 +138,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
+STATICFILES_DIRS = (
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    normpath(join(DJANGO_ROOT, 'static')),
+)
+
 STATIC_URL = '/static/'
+
+STATIC_ROOT = '/var/www/applaylist.ml/static/'
 
 LOGIN_REDIRECT_URL = '/user-profile/'
 

@@ -1,9 +1,11 @@
 from django.shortcuts import render
-from django.views.generic import DetailView, CreateView, UpdateView
+from django.views.generic import DetailView, CreateView, UpdateView, View
 from django.contrib.auth.models import User
 from .models import PlayList
 from .forms import CrearPlayListForm, CrearCancionForm, AniadirCancionForm
 from playlist.models import Cancion
+from django.shortcuts import redirect
+from django.http import HttpResponse
 
 class UsuarioView(DetailView):
     model = User
@@ -27,7 +29,7 @@ class CrearPlayListView(CreateView):
         return self.render_to_response(self.get_context_data(form=form))
 
     def get_success_url(self):
-        return '/user-profile/' + str(self.object.nombre_slug)
+        return '/user-profile/playlist/' + str(self.object.nombre_slug)
 
 class PlayListView(DetailView):
     model = PlayList
@@ -49,12 +51,13 @@ class CrearCancionView(CreateView):
     def get_success_url(self):
         return '/user-profile/'
 
-class AniadirCancionView(UpdateView):
-    model = PlayList
-    template_name = 'aniadir_cancion.html'
-    form_class = AniadirCancionForm
-    slug_url_kwarg = 'playlist_slug'
-    slug_field = 'nombre_slug'
+class AniadirCancionView(View):
 
-    def get_success_url(self):
-        return '/user-profile/'
+    def get(self, request, *args, **kwargs):
+        '''
+        '''
+        playlist = PlayList.objects.get(nombre_slug=self.kwargs['playlist_slug'])
+        cancion = Cancion.objects.get(nombre_slug=self.kwargs['cancion_slug'])
+        cancion.save()
+        playlist.caciones.add(cancion)
+        return redirect('/user-profile/playlist/'+self.kwargs['playlist_slug']+'/')

@@ -1,3 +1,5 @@
+{% load staticfiles %}
+
 <!DOCTYPE HTML>
 <!--
 	Strata by HTML5 UP
@@ -10,7 +12,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href=" {% static 'assets/css/main.css' %}" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	</head>
 	<body id="top">
@@ -47,7 +49,7 @@
 						<div class="row">
 							{% for playlist in object.usuario.get_creador_playlist %}
 							<article class="6u 12u$(xsmall) work-item">
-								<h3><a href="#" class="header">{{ playlist }}</a></h3>
+								<h3><a href="playlist/{{playlist.nombre_slug}}" class="header">{{ playlist }}</a></h3>
 								<p>{{ playlist.get_numero_canciones }} canciones : {{playlist.get_duracion_playlist}}</p>
 							</article>
 							{% empty %}
@@ -57,7 +59,7 @@
 							{% endfor %}
 						</div>
 						<ul class="actions">
-							<li><a href="#" class="button">Crear PlayList</a></li>
+							<li><a href="crear-playlist" class="button">Crear PlayList</a></li>
 						</ul>
 					</section>
 
@@ -82,12 +84,12 @@
 			</footer>
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.poptrox.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
+			<script src=" {% static 'assets/js/jquery.min.js' %} "></script>
+			<script src=" {% static 'assets/js/jquery.poptrox.min.js' %}"></script>
+			<script src=" {% static 'assets/js/skel.min.js' %}"></script>
+			<script src=" {% static 'assets/js/util.js' %}"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-			<script src="assets/js/main.js"></script>
+			<script src=" {% static 'assets/js/main.js' %}"></script>
 
 	</body>
 </html>

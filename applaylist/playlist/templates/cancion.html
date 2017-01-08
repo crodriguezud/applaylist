@@ -1,14 +1,17 @@
 {% load staticfiles %}
 
+
 <!DOCTYPE HTML>
 <!--
 	Strata by HTML5 UP
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
+
+
 <html>
 	<head>
-		<title>{{object.nombre}} PlayList</title>
+		<title>{{object.nombre}}</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
@@ -21,9 +24,6 @@
 			<header id="header">
 				<div class="inner">
 					<h1><strong>{{object.nombre}}</strong><br />
-					Creador: <a href="/user-profile/" class="header">{{ object.creador }}</a><br />
-					Numero Canciones: {{ object.get_numero_canciones }}<br />
-					Duracion: {{ object.get_duracion_playlist }}<br />
 				</div>
 			</header>
 
@@ -44,30 +44,24 @@
 
 				<!-- Two -->
 					<section id="two">
-						<h2>Canciones</h2>
+						<h2>{{ object.nombre }}</h2>
 						<div class="row">
-							{% for cancion in object.caciones.all %}
+							
 							<article class="6u 12u$(xsmall) work-item">
-								<h3><a href="/playlist/cancion/{{cancion.nombre_slug}}" class="header">{{ cancion }}</a></h3>
 								<p>
 									<table>
 										<tr>
-											<td>Duracion: {{ cancion.duracion }}</td>
-											<td>Album: {{ cancion.album }}</td>
-											<td>Artista: {{ cancion.artista }}</td>
-											<td>Calificacion: {{ cancion.calificacion }}</td>
+											<td>Duracion: {{ object.duracion }}</td>
+											<td>Album: {{ object.album }}</td>
+											<td>Artista: {{ object.artista }}</td>
+											<td>Calificacion: {{ object.calificacion }}</td>
 										</tr>
 									</table>	
 								</p>
 							</article>
-							{% empty %}
-							<article class="6u 12u$(xsmall) work-item">
-								<h3>No hay canciones disponibles</h3>
-							</article>
-							{% endfor %}
 						</div>
 						<ul class="actions">
-							<li><a href="aniadir-cancion" class="button">Añadir Cancion</a></li>
+							<li><a href="#" class="button">Añadir a PlayList</a></li>
 						</ul>
 					</section>
 
