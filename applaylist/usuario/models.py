@@ -59,7 +59,7 @@ def crear_perfil(sender, **kwargs):
     user = kwargs["instance"]
     if kwargs["created"]:
         profile = Usuario()
-        profile.user = user
+        profile.usuario = user
         profile.save()
 
 post_save.connect(crear_perfil, sender=User)

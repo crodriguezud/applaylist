@@ -54,10 +54,17 @@ class CrearCancionView(CreateView):
 class AniadirCancionView(View):
 
     def get(self, request, *args, **kwargs):
-        '''
-        '''
         playlist = PlayList.objects.get(nombre_slug=self.kwargs['playlist_slug'])
         cancion = Cancion.objects.get(nombre_slug=self.kwargs['cancion_slug'])
         cancion.save()
         playlist.caciones.add(cancion)
         return redirect('/user-profile/playlist/'+self.kwargs['playlist_slug']+'/')
+
+class EliminarPlayListView(View):
+
+    def get(self, request, *args, **kwargs):
+
+        playlist = PlayList.objects.get(nombre_slug=self.kwargs['playlist_slug'])
+        playlist.delete()
+        return redirect('/user-profile/')
+

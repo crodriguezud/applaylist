@@ -1,10 +1,93 @@
-{% block content %}
-<form class="" action="/user-profile/crear-playlist/" method="post">{% csrf_token %}
+
+
+
+{% load staticfiles %}
+
+<!DOCTYPE HTML>
+<!--
+	Strata by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>{{object.nombre}} PlayList</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href=" {% static 'assets/css/main.css' %}" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body id="top">
+
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<h1><strong>{{user.username}}</strong><br />
+				</div>
+			</header>
+
+		<!-- Main -->
+			<div id="main">
+
+				<!-- One -->
+					<!--section id="one">
+						<header class="major">
+							<h2>Ipsum lorem dolor aliquam ante commodo<br />
+							magna sed accumsan arcu neque.</h2>
+						</header>
+						<p>Accumsan orci faucibus id eu lorem semper. Eu ac iaculis ac nunc nisi lorem vulputate lorem neque cubilia ac in adipiscing in curae lobortis tortor primis integer massa adipiscing id nisi accumsan pellentesque commodo blandit enim arcu non at amet id arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi lorem vulputate lorem neque cubilia.</p>
+						<ul class="actions">
+							<li><a href="#" class="button">Learn More</a></li>
+						</ul>
+					</section-->
+
+				<!-- Two -->
+					<section id="two">
+						<h2>Crear PlayList</h2>
+						<form class="" action="/user-profile/crear-playlist/" method="post">{% csrf_token %}
     {{form.as_p}}
     <input type="submit" value="Submit">
 </form>
+					</section>
 
-{% endblock %}
 
-{% block extra_js %}
-{% endblock %}
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="inner">
+					{% if user.is_authenticated %}
+						<ul>
+							<a href="/user-profile" class="button">{{user.username}}</a>
+						</ul>
+						<ul>
+							<a href="/accounts/logout" class="button">Cerrar Sesion</a>
+						</ul>
+					{% else %}
+						<ul>
+							<a href="/accounts/login" class="button">Iniciar Sesion</a>
+						</ul>
+					{% endif %}
+					<ul class="icons">
+						<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
+						<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
+						<li><a href="#" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src=" {% static 'assets/js/jquery.min.js' %} "></script>
+			<script src=" {% static 'assets/js/jquery.poptrox.min.js' %}"></script>
+			<script src=" {% static 'assets/js/skel.min.js' %}"></script>
+			<script src=" {% static 'assets/js/util.js' %}"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src=" {% static 'assets/js/main.js' %}"></script>
+
+	</body>
+</html>

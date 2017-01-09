@@ -41,12 +41,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     
+    'django.contrib.algoliasearch',
+
     #Autenticacion Facebook & GitHub
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.github',
+
+
 
     #Celery
     'djcelery',
@@ -124,9 +128,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-CO'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
 
@@ -158,7 +162,12 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'crodriguezud@gmail.com'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = 'crcrodriguezr@correo.udistrital.edu.co'
+EMAIL_HOST_PASSWORD = 'equaxulo'
 EMAIL_PORT = 25
 EMAIL_USE_TLS = True
+
+ALGOLIA = {
+    'APPLICATION_ID': "8MUD8L4E44",
+    'API_KEY': "6583cfa4379bc8eed6b3306816f8592c"
+}

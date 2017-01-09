@@ -11,11 +11,13 @@
 
 <html>
 	<head>
-		<title>{{object.nombre}}</title>
+		<title>Lista Canciones</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href=" {% static 'assets/css/main.css' %}" />
+
+
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	</head>
 	<body id="top">
@@ -23,13 +25,16 @@
 		<!-- Header -->
 			<header id="header">
 				<div class="inner">
-					<h1><strong>{{object.nombre}}</strong><br />
+					<h1><strong>Lista Canciones</strong><br />
 				</div>
 			</header>
 
 		<!-- Main -->
 			<div id="main">
-
+				<div id="song-search" class="ui fluid input search">
+      <input class="prompt" type="text" placeholder="Search song...">
+      <div class="results"></div>
+    </div>
 				<!-- One -->
 					<!--section id="one">
 						<header class="major">
@@ -44,27 +49,22 @@
 
 				<!-- Two -->
 					<section id="two">
-						<h2>{{ object.nombre }}</h2>
 						<div class="row">
 							
+							{% for cancion in object_list %}
 							<article class="6u 12u$(xsmall) work-item">
-								<p>
-									<table>
-										<tr>
-											<td>Duracion: {{ object.duracion }}</td>
-											<td>Album: <a href="/playlist/album/{{ object.album.nombre_slug }}" > {{ object.album }}</a></td>
-											<td>Artista: <a href="/playlist/artista/{{ object.artista.nombre_slug }}" > {{ object.artista }} </td>
-											<td>Calificacion: {{ object.calificacion }}</td>
-										</tr>
-									</table>	
-								</p>
+								<h3><a href="{{cancion.nombre_slug}}" class="header">{{ cancion.nombre }}</a></h3>
+								<p>{{ cancion.album }}</p>
+								<p>{{ cancion.artista }}</p>
+								<p>{{ cancion.duracion }}</p>
+								<p>{{ cancion.calificacion }}</p>
 							</article>
+							{% empty %}
+							<article class="6u 12u$(xsmall) work-item">
+								<h3>No hay canciones disponibles</h3>
+							</article>
+							{% endfor %}
 						</div>
-						{% if user.is_authenticated %}
-						<ul class="actions">
-							<li><a href="calificar" class="button">Calificar Cancion</a></li>
-						</ul>
-						{% endif %}
 					</section>
 
 
@@ -113,6 +113,59 @@
 			<script src=" {% static 'assets/js/util.js' %}"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src=" {% static 'assets/js/main.js' %}"></script>
+			<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+
+		<link href="{% static 'semantic-ui/semantic.min.css' %}" rel="stylesheet">
+		<script src="{% static 'semantic-ui/semantic.min.js' %}"></script>
+
+<script type="text/javascript">
+    var algolia = {
+    id: "8MUD8L4E44",
+    key: "6583cfa4379bc8eed6b3306816f8592c",
+    index: "nombre_cancion_index"
+    };
+    $('#song-search')
+    .search({
+    cache: false,
+    apiSettings: {
+      method: 'post',
+      url: 'https://' + algolia.id + '-dsn.algolia.net/1/indexes/' + algolia.index + '/query',
+      beforeXHR: function(xhr) {
+        // adjust XHR with additional headers
+        xhr.setRequestHeader ('X-Algolia-API-Key', algolia.key);
+        xhr.setRequestHeader ('X-Algolia-Application-Id', algolia.id);
+        return xhr;
+      },
+      beforeSend: function(settings) {
+        // Retrieve the actual query and urlencode it. There's definitely a better way to do this...
+        settings.data = JSON.stringify({ "params" : "query=" + encodeURIComponent(settings.urlData.query) + "&hitsPerPage=5" });
+        return settings;
+      },
+      onResponse: function(algoliaResponse) {
+        var
+          response = {
+            results : []
+          }
+        ;
+        // translate Algolia API response to work with search.
+        $.each(algoliaResponse.hits, function(index, item) {
+          // Of course you'll have to adapt this to your needs.
+          response.results.push({
+            id          : item.objectID,
+            title       : item.title,
+            url         : "/playlist/cancion/" + item.objectID
+          });
+        });
+        return response;
+      },
+    },
+      onSelect: function(result, response) {
+            $('#song-search').val(result.id)
+      },
+});
+</script>
+
+
 
 	</body>
 </html>

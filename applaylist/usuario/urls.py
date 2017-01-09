@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf.urls import url
 
 # Import Class Based Views
-from .views import UsuarioView, CrearPlayListView, PlayListView, CrearCancionView, AniadirCancionView
+from .views import UsuarioView, CrearPlayListView, PlayListView, CrearCancionView, AniadirCancionView, EliminarPlayListView
 from playlist.views import CancionesView
 
 urlpatterns = [
@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^crear-cancion/$', login_required(CrearCancionView.as_view()), name='user_create_cancion'),
     url(r'^playlist/(?P<playlist_slug>[\w-]+)/aniadir-cancion/$', login_required(CancionesView.as_view()), name='user_add_cancion'),
     url(r'^playlist/(?P<playlist_slug>[\w-]+)/aniadir-cancion/(?P<cancion_slug>[\w-]+)/$', login_required(AniadirCancionView.as_view()), name='user_add_cancion'),
+    url(r'^playlist/(?P<playlist_slug>[\w-]+)/eliminar/$', login_required(EliminarPlayListView.as_view()), name='user_delete_playlist'),
     ]

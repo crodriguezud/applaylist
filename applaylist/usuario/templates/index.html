@@ -20,7 +20,6 @@
 		<!-- Header -->
 			<header id="header">
 				<div class="inner">
-					<a href="#" class="image avatar"><img src="i/media/{{object.usuario}}" alt="" /></a>
 					<h1><strong>{{object.username}}</strong><br />
 					{{object.first_name}} {{object.last_name}}<br />
 					Ultima conexion: {{ object.last_login }}<br />
@@ -45,7 +44,7 @@
 
 				<!-- Two -->
 					<section id="two">
-						<h2>PlayList</h2>
+						<h2>Mis PlayList</h2>
 						<div class="row">
 							{% for playlist in object.usuario.get_creador_playlist %}
 							<article class="6u 12u$(xsmall) work-item">
@@ -71,6 +70,27 @@
 		<!-- Footer -->
 			<footer id="footer">
 				<div class="inner">
+					{% if user.is_authenticated %}
+						<ul>
+							<a href="/user-profile" >{{user.username}}</a>
+						</ul>
+						<ul>
+							<a href="/playlist/canciones/" >Lista Canciones</a>
+						</ul>
+						<ul>
+							<a href="/playlist/albumes" >Lista Albumes</a>
+						</ul>
+						<ul>
+							<a href="/playlist/artistas" >Lista Artistas</a>
+						</ul>
+						<ul>
+							<a href="/accounts/logout" class="button">Cerrar Sesion</a>
+						</ul>
+					{% else %}
+						<ul>
+							<a href="/accounts/login" class="button">Iniciar Sesion</a>
+						</ul>
+					{% endif %}
 					<ul class="icons">
 						<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
 						<li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
@@ -90,6 +110,13 @@
 			<script src=" {% static 'assets/js/util.js' %}"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src=" {% static 'assets/js/main.js' %}"></script>
-
+			<script src="//js.pusher.com/3.2/pusher.min.js"></script>
+			<script type="text/javascript">
+			    var pusher = new Pusher('154f994a51028a288602');
+			    var channel = pusher.subscribe('ApPlayList');
+			    channel.bind('creacion', function(data) {
+			      alert('se ha creado una nueva PlayList');
+			    });
+			</script>
 	</body>
 </html>
