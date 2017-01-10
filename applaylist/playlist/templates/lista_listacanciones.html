@@ -152,8 +152,8 @@
           // Of course you'll have to adapt this to your needs.
           response.results.push({
             id          : item.objectID,
-            title       : item.title,
-            url         : "/playlist/cancion/" + item.objectID
+            title       : item.nombre,
+            url         : "/playlist/cancion/" + item.nombre_slug
           });
         });
         return response;

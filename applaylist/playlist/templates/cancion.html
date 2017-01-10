@@ -51,7 +51,7 @@
 								<p>
 									<table>
 										<tr>
-											<td>Duracion: {{ object.duracion }}</td>
+											<td>Duracion: {{ object.get_duracion }}</td>
 											<td>Album: <a href="/playlist/album/{{ object.album.nombre_slug }}" > {{ object.album }}</a></td>
 											<td>Artista: <a href="/playlist/artista/{{ object.artista.nombre_slug }}" > {{ object.artista }} </td>
 											<td>Calificacion: {{ object.calificacion }}</td>

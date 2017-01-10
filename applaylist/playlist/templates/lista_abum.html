@@ -29,7 +29,10 @@
 
 		<!-- Main -->
 			<div id="main">
-
+				<div id="song-search" class="ui fluid input search">
+			      <input class="prompt" type="text" placeholder="Search song...">
+			      <div class="results"></div>
+			    </div>
 				<!-- One -->
 					<!--section id="one">
 						<header class="major">
@@ -105,6 +108,57 @@
 			<script src=" {% static 'assets/js/util.js' %}"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src=" {% static 'assets/js/main.js' %}"></script>
+			<script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+
+			<link href="{% static 'semantic-ui/semantic.min.css' %}" rel="stylesheet">
+			<script src="{% static 'semantic-ui/semantic.min.js' %}"></script>
+
+			<script type="text/javascript">
+			    var algolia = {
+			    id: "8MUD8L4E44",
+			    key: "6583cfa4379bc8eed6b3306816f8592c",
+			    index: "nombre_album_index"
+			    };
+			    $('#song-search')
+			    .search({
+			    cache: false,
+			    apiSettings: {
+			      method: 'post',
+			      url: 'https://' + algolia.id + '-dsn.algolia.net/1/indexes/' + algolia.index + '/query',
+			      beforeXHR: function(xhr) {
+			        // adjust XHR with additional headers
+			        xhr.setRequestHeader ('X-Algolia-API-Key', algolia.key);
+			        xhr.setRequestHeader ('X-Algolia-Application-Id', algolia.id);
+			        return xhr;
+			      },
+			      beforeSend: function(settings) {
+			        // Retrieve the actual query and urlencode it. There's definitely a better way to do this...
+			        settings.data = JSON.stringify({ "params" : "query=" + encodeURIComponent(settings.urlData.query) + "&hitsPerPage=5" });
+			        return settings;
+			      },
+			      onResponse: function(algoliaResponse) {
+			        var
+			          response = {
+			            results : []
+			          }
+			        ;
+			        // translate Algolia API response to work with search.
+			        $.each(algoliaResponse.hits, function(index, item) {
+			          // Of course you'll have to adapt this to your needs.
+			          response.results.push({
+			            id          : item.objectID,
+			            title       : item.nombre,
+			            url         : "/playlist/album/"+item.nombre_slug
+			          });
+			        });
+			        return response;
+			      },
+			    },
+			      onSelect: function(result, response) {
+			            $('#song-search').val(result.id)
+			      },
+			});
+			</script>
 
 	</body>
 </html>

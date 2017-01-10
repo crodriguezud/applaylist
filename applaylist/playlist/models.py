@@ -3,8 +3,12 @@ import time
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.utils.encoding import smart_unicode
+from django.db.models import Q
 
 # Create your models here.
+
+def cargar_imagen(instance, filename):
+    return 'artits/%s/%s' % (instance.username, filename)
 
 class Artista(models.Model):
 	nombre = models.CharField(max_length=50)
@@ -18,7 +22,7 @@ class Artista(models.Model):
 		return Album.objects.filter(artista=self)
 
 	def get_canciones(self):
-		return merge(Cancion.objects.filter(album__artista=self),Cancion.objects.filter(artista=self))
+		return Cancion.objects.filter(Q(album__artista=self) | Q(artista=self))
 
 	def __unicode__(self):
 		return smart_unicode(self.nombre)
@@ -27,7 +31,7 @@ class Album(models.Model):
 	nombre = models.CharField(max_length=60)
 	nombre_slug = models.SlugField(max_length=50, blank=True, null=True)
 	artista = models.ForeignKey(Artista)
-
+	
 	def save(self, *args, **kwargs):
 		self.nombre_slug = slugify(self.nombre)
 		super(self.__class__, self).save(*args, **kwargs)
@@ -37,6 +41,12 @@ class Album(models.Model):
 
 	def get_numero_canciones(self):
 		return len(Cancion.objects.filter(album=self))
+
+	def get_duracion_album(self):
+		duracion = 0
+		for cancion in self.get_canciones():
+			duracion += cancion.duracion
+		return time.strftime("%H:%M:%S", time.gmtime(duracion))
 
 	def __unicode__(self):
 		return smart_unicode(self.nombre)

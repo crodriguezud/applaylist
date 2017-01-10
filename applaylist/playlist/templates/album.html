@@ -28,31 +28,39 @@
 			<div id="main">
 
 				<!-- One -->
-					<!--section id="one">
+					<section id="one">
 						<header class="major">
-							<h2>Ipsum lorem dolor aliquam ante commodo<br />
-							magna sed accumsan arcu neque.</h2>
+							<h2>{{ object.nombre }}</h2>
 						</header>
-						<p>Accumsan orci faucibus id eu lorem semper. Eu ac iaculis ac nunc nisi lorem vulputate lorem neque cubilia ac in adipiscing in curae lobortis tortor primis integer massa adipiscing id nisi accumsan pellentesque commodo blandit enim arcu non at amet id arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi lorem vulputate lorem neque cubilia.</p>
-						<ul class="actions">
-							<li><a href="#" class="button">Learn More</a></li>
-						</ul>
-					</section-->
+						<p>Artista: <a href="/playlist/artista/{{ object.artista.nombre_slug }}" > {{ object.artista }} </a></p>
+						<p>Numero Canciones: {{ object.get_numero_canciones }} </p>
+						<p>Duracion: {{ object.get_duracion_album }}</p>
+					</section>
 
 				<!-- Two -->
 					<section id="two">
-						<h2>{{ object.nombre }}</h2>
+						<h2>Canciones</h2>
 						<div class="row">
-							
+
+							{% for cancion in object.get_canciones%}
 							<article class="6u 12u$(xsmall) work-item">
+								<h3><a href="/playlist/cancion/{{cancion.nombre_slug}}" class="header">{{ cancion }}</a></h3>
 								<p>
 									<table>
 										<tr>
-											<td>Artista: <a href="/playlist/artista/{{ object.artista.nombre_slug }}" > {{ object.artista }} </a></td>
+											<td>Duracion: {{ cancion.get_duracion }}</td>
+											<td>Album: <a href="/playlist/album/{{ cancion.album.nombre_slug }}"> {{ cancion.album }} </a> </td>
+											<td>Artista: <a href="/playlist/artista/{{ cancion.artista.nombre_slug }}"> {{ cancion.artista }} </a> </td>
+											<td>Calificacion: {{ cancion.calificacion }}</td>
 										</tr>
 									</table>	
 								</p>
 							</article>
+							{% empty %}
+							<article class="6u 12u$(xsmall) work-item">
+								<h3>No hay canciones disponibles</h3>
+							</article>
+							{% endfor %}
 						</div>
 					</section>
 

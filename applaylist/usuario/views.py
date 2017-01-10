@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.views.generic import DetailView, CreateView, UpdateView, View
 from django.contrib.auth.models import User
 from .models import PlayList
-from .forms import CrearPlayListForm, CrearCancionForm, AniadirCancionForm
-from playlist.models import Cancion
+from .forms import CrearPlayListForm, CrearCancionForm, AniadirCancionForm, CrearAlbumForm, CrearArtistaForm
+from playlist.models import Cancion, Album, Artista
 from django.shortcuts import redirect
 from django.http import HttpResponse
 
@@ -41,6 +41,34 @@ class CrearCancionView(CreateView):
     template_name = 'crear_cancion.html'
     model = Cancion
     form_class = CrearCancionForm
+
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def get_success_url(self):
+        return '/user-profile/'
+
+class CrearAlbumView(CreateView):
+    template_name = 'crear_album.html'
+    model = Album
+    form_class = CrearAlbumForm
+
+    def get(self, request, *args, **kwargs):
+        self.object = None
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def get_success_url(self):
+        return '/user-profile/'
+
+class CrearArtistaView(CreateView):
+    template_name = 'crear_artista.html'
+    model = Artista
+    form_class = CrearArtistaForm
 
     def get(self, request, *args, **kwargs):
         self.object = None
