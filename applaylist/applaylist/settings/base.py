@@ -161,9 +161,9 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'crcrodriguezr@correo.udistrital.edu.co'
-EMAIL_HOST_PASSWORD = 'equaxulo'
+EMAIL_HOST = os.environ['CORREO_HOST']
+EMAIL_HOST_USER = os.environ['CORREO']
+EMAIL_HOST_PASSWORD = os.environ['CORREO_CLAVE']
 EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 
