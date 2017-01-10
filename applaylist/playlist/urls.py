@@ -13,5 +13,5 @@ urlpatterns = [
     url(r'^canciones/$', CancionesListView.as_view(), name='user_canciones'),
     url(r'^albumes/$', AlbumListView.as_view(), name='user_albumes'),
     url(r'^artistas/$', ArtistasListView.as_view(), name='user_artistas'),
-    url(r'^cancion/(?P<cancion_slug>[\w-]+)/calificar/$', CalificarCancionView.as_view(), name='user_calificar_cancion'),
+    url(r'^cancion/(?P<cancion_slug>[\w-]+)/(?P<calificacion>[\w-]+)/calificar/$', CalificarCancionView.as_view(), name='user_calificar_cancion'),
     ]

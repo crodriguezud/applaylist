@@ -4,6 +4,8 @@ from django.views.generic import DetailView, ListView, UpdateView
 from .models import Cancion, Album, Artista
 from usuario.models import PlayList
 from .forms import ActualizarCancionForm
+from django.shortcuts import redirect
+from applaylist.utils import cliente_pusher
 
 # Create your views here.
 class CancionView(DetailView):
@@ -65,13 +67,10 @@ class CancionesView(ListView):
 		return context
 
 class CalificarCancionView(UpdateView):
-    model = Cancion
-    slug_url_kwarg = 'cancion_slug'
-    slug_field = 'nombre_slug'
-    form_class = ActualizarCancionForm
 
     def get(self, request, *args, **kwargs):
-        self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        return self.render_to_response(self.get_context_data(form=form))
+        cancion = Cancion.objects.get(nombre_slug=self.kwargs['cancion_slug'])
+        cancion.calificacion = (cancion.calificacion + int(self.kwargs['calificacion']))/2
+        cancion.save()
+        cliente_pusher.trigger('ApPlayList', 'calificar', {'cancion': cancion.nombre})
+        return redirect('/playlist/cancion/'+self.kwargs['cancion_slug'])

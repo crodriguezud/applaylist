@@ -62,7 +62,16 @@
 						</div>
 						{% if user.is_authenticated %}
 						<ul class="actions">
-							<li><a href="calificar" class="button">Calificar Cancion</a></li>
+							<li>Calificar
+								<select id='calificacion'>
+									<option>0</option>
+									<option>1</option>
+									<option>2</option>
+									<option>3</option>
+									<option>4</option>
+									<option>5</option>
+
+								</select>
 						</ul>
 						{% endif %}
 					</section>
@@ -113,6 +122,12 @@
 			<script src=" {% static 'assets/js/util.js' %}"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src=" {% static 'assets/js/main.js' %}"></script>
+			<SCRIPT TYPE="text/javascript">
+				$("#calificacion").change(function () {
+				    
+				    window.location.href = "/playlist/cancion/{{object.nombre_slug}}/" + $("#calificacion").val() + "/calificar"
+				  })
+			</SCRIPT>
 
 	</body>
 </html>

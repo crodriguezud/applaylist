@@ -72,8 +72,13 @@
 				<div class="inner">
 					{% if user.is_authenticated %}
 						<ul>
-							<a href="/user-profile" >{{user.username}}</a>
+							<a href="/accounts/logout" class="button">Cerrar Sesion</a>
 						</ul>
+					{% else %}
+						<ul>
+							<a href="/accounts/login" class="button">Iniciar Sesion</a>
+						</ul>
+					{% endif %}
 						<ul>
 							<a href="/playlist/canciones/" >Lista Canciones</a>
 						</ul>
@@ -83,14 +88,6 @@
 						<ul>
 							<a href="/playlist/artistas" >Lista Artistas</a>
 						</ul>
-						<ul>
-							<a href="/accounts/logout" class="button">Cerrar Sesion</a>
-						</ul>
-					{% else %}
-						<ul>
-							<a href="/accounts/login" class="button">Iniciar Sesion</a>
-						</ul>
-					{% endif %}
 					<ul class="icons">
 						<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
 						<li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
@@ -114,8 +111,8 @@
 			<script type="text/javascript">
 			    var pusher = new Pusher('154f994a51028a288602');
 			    var channel = pusher.subscribe('ApPlayList');
-			    channel.bind('creacion', function(data) {
-			      alert('se ha creado una nueva PlayList');
+			    channel.bind('calificar', function(data) {
+			      alert(data.cancion);
 			    });
 			</script>
 	</body>
